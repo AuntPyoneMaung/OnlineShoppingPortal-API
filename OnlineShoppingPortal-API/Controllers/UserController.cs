@@ -31,6 +31,8 @@ namespace OnlineShoppingPortal_API.Controllers
             this.dataContext = dataContext;
         }
 
+        // get all users
+        // access allowed only with authentication 
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] User userObj)
         {
@@ -39,18 +41,21 @@ namespace OnlineShoppingPortal_API.Controllers
                 return BadRequest();
             }
 
-            //check if user exist
+            // check if user with give username exist
             var user = await dataContext.Users
                 .FirstOrDefaultAsync(u => u.UserName == userObj.UserName);
             if (user == null) 
             { 
                 return NotFound(new { Message = "User Not Found" });
             }
+            // check if user's given password matches for login
+            // uses helpers service to match doc object and database password
             if (!HashedPassword.VerifyPass(userObj.Password, user.Password))
             {
                 return BadRequest(new { Messsage = "Incorrect Password!" });
             }
 
+            // else produce token and send w response
             user.Token = CreateJwtToken(user); 
 
 
@@ -62,6 +67,7 @@ namespace OnlineShoppingPortal_API.Controllers
             }
         }
 
+        // to create a user when front-end signs up for a new user 
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser([FromBody] User userObj)
         {
@@ -69,7 +75,7 @@ namespace OnlineShoppingPortal_API.Controllers
             {
                 return BadRequest();
             }
-            // ensure that usernames and emails are unique
+            // ensure that usernames and emails are unique with AnyAsync 
             if (await UserNameCheck(userObj.UserName)) 
             {
                 return BadRequest(new {Message = "This username already exist"});
@@ -79,7 +85,7 @@ namespace OnlineShoppingPortal_API.Controllers
                 return BadRequest(new { Message = "This e-mail has already been used to register" });
             }
 
-
+            // else hash the password input, set all new sign up roles as user, add to database
             userObj.Password = HashedPassword.HashedPass(userObj.Password);
             userObj.Role = "user";
             userObj.Token = "";
@@ -105,6 +111,7 @@ namespace OnlineShoppingPortal_API.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
             // convert key into bytes
             var key = Encoding.ASCII.GetBytes("this%^is!@$a$random(*99");
+            // set user role and fullname as its unique identity
             var identity = new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Role, userObj.Role),
@@ -115,9 +122,10 @@ namespace OnlineShoppingPortal_API.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = identity,
-                Expires = DateTime.Now.AddDays(1), // validity
+                Expires = DateTime.Now.AddDays(1), // validity, user will be logged out after this set period 
                 SigningCredentials = credentials,
             };
+
             // finally create a token with all components ready
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
@@ -132,6 +140,7 @@ namespace OnlineShoppingPortal_API.Controllers
         // GET: api/User
         [Authorize] // interceptor
         [HttpGet]
+        [Route("getAllUsers")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await dataContext.Users.ToListAsync();

@@ -91,7 +91,7 @@ namespace OnlineShoppingPortal_API.Data
               );
 
             modelBuilder.Entity<User>().HasData(
-              new User() { UserId = 001, FirstName = "Master", LastName = "User", UserName = "OgMaster001", EmailId = "adminuser@mail.com", Password = "wasd123", Token ="123abc", Role = "admin" }
+              new User() { UserId = 001, FirstName = "Master", LastName = "User", UserName = "AdminMasterUser01", EmailId = "adminuser@mail.com", Password = "0VT5s7zLvBycKO1sFrhtcBIQICNCmqPspfmuWpBESX/XSKx3", Role = "admin" }
               );
 
 
