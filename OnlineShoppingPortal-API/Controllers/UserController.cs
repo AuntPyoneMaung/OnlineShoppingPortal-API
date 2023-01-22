@@ -122,7 +122,9 @@ namespace OnlineShoppingPortal_API.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = identity,
-                Expires = DateTime.Now.AddDays(1), // validity, user will be logged out after this set period 
+                // validity, user will be logged out after this set period
+                // during this period, the token can be intercepted so consider using refresh tokens (future implementation)
+                Expires = DateTime.Now.AddDays(1),  
                 SigningCredentials = credentials,
             };
 
