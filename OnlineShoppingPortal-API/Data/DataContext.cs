@@ -91,7 +91,29 @@ namespace OnlineShoppingPortal_API.Data
               );
 
             modelBuilder.Entity<User>().HasData(
+                // seeded admin user because registeration is set for USER roles only
+                // admin password : admin123
               new User() { UserId = 001, FirstName = "Master", LastName = "User", UserName = "AdminMasterUser01", EmailId = "adminuser@mail.com", Password = "0VT5s7zLvBycKO1sFrhtcBIQICNCmqPspfmuWpBESX/XSKx3", Role = "admin" }
+              );
+
+            modelBuilder.Entity<Brand>().HasData(
+              new Brand() { BrandId = 1, CategoryId = 101, BrandName = "Pasar" },
+              new Brand() { BrandId = 2, CategoryId = 101, BrandName = "TasteMaxx" },
+              new Brand() { BrandId = 3, CategoryId = 102, BrandName = "FairP" },
+              new Brand() { BrandId = 4, CategoryId = 103, BrandName = "Deli" },
+              new Brand() { BrandId = 5, CategoryId = 103, BrandName = "Nutri GO" },
+              new Brand() { BrandId = 6, CategoryId = 104, BrandName = "Quechzxc" }
+              );
+
+            modelBuilder.Entity<Product>().HasData(
+              new Product() { ProductId = 1, ProductName = "Leek", ProductDescription = "A green vegetable", ProductModel = "66A", ProductPrice = 30 },
+              new Product() { ProductId = 2, ProductName = "Carrot", ProductDescription = "An orange edible, safe for consumption", ProductModel = "67B", ProductPrice = 50 },
+              new Product() { ProductId = 3, ProductName = "Apple", ProductDescription = "A red, juicy and sweet fruit", ProductModel = "68X", ProductPrice = 70 },
+              new Product() { ProductId = 4, ProductName = "Honey Dew", ProductDescription = "Top grade, Japan Import, perishable, good for gifts", ProductModel = "69Z", ProductPrice = 5000 },
+              new Product() { ProductId = 5, ProductName = "Nugget", ProductDescription = "(1kg) Savory, munchable, to-go, kids love it!", ProductModel = "70S", ProductPrice = 300 },
+              new Product() { ProductId = 6, ProductName = "Sandwich", ProductDescription = "Mini-ones for quick breakfast on busy days", ProductModel = "71M", ProductPrice = 250 },
+              new Product() { ProductId = 7, ProductName = "Diet Coke", ProductDescription = "For guilty diet, sweet, no sugar added", ProductModel = "72L", ProductPrice = 30 },
+              new Product() { ProductId = 8, ProductName = "Pepsi", ProductDescription = "Just like Coke but blue can, maybe better", ProductModel = "73P", ProductPrice = 30 }
               );
 
 
