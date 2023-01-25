@@ -22,14 +22,7 @@ namespace OnlineShoppingPortal_API.Data
                 .WithMany(c => c.BrandProducts)
                 .HasForeignKey(bc => bc.ProductId);
 
-            // 1-M user-customer
-            modelBuilder.Entity<Customer>()
-                .HasOne(u => u.User)
-                .WithOne(c => c.Customer)
-                .HasForeignKey<Customer>(u => u.UserId);
-
-            modelBuilder.Entity<Customer>()
-                .ToTable("Customer");
+            
             modelBuilder.Entity<Segment>()
                 .ToTable("Segment");
             modelBuilder.Entity<Category>()
@@ -46,7 +39,7 @@ namespace OnlineShoppingPortal_API.Data
                 .ToTable("CartItem");
             modelBuilder.Entity<CardDetail>()
                 .ToTable("CardDetail");
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<Customer>()
                 .ToTable("User");
 
             modelBuilder.Seed();
@@ -58,8 +51,8 @@ namespace OnlineShoppingPortal_API.Data
         //    optionsBuilder.UseLazyLoadingProxies();
         //}
 
-
-        public DbSet<Customer> Customers { get; set; }
+        // just as line 42 customer model is user table as roles are defined as well
+        public DbSet<Customer> Users { get; set; }
         public DbSet<Segment> Segments { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
@@ -69,7 +62,6 @@ namespace OnlineShoppingPortal_API.Data
         public DbSet<Payment> Payments { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<CardDetail> CardDetails { get; set; }
-        public DbSet<User> Users { get; set; }
 
     }
 
@@ -90,10 +82,10 @@ namespace OnlineShoppingPortal_API.Data
               new Category() { CategoryId = 104, SegmentId = 103, CategoryName = "Drinks" }
               );
 
-            modelBuilder.Entity<User>().HasData(
+            modelBuilder.Entity<Customer>().HasData(
                 // seeded admin user because registeration is set for USER roles only
                 // admin password : admin123
-              new User() { UserId = 001, FirstName = "Master", LastName = "User", UserName = "AdminMasterUser01", EmailId = "adminuser@mail.com", Password = "0VT5s7zLvBycKO1sFrhtcBIQICNCmqPspfmuWpBESX/XSKx3", Role = "admin" }
+              new Customer() { CustomerId = 1, FirstName = "Master", LastName = "User", UserName = "AdminMasterUser01", EmailId = "adminuser@mail.com", Password = "0VT5s7zLvBycKO1sFrhtcBIQICNCmqPspfmuWpBESX/XSKx3", Role = "admin" }
               );
 
             modelBuilder.Entity<Brand>().HasData(

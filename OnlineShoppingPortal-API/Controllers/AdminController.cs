@@ -23,14 +23,14 @@ namespace OnlineShoppingPortal_API.Controllers
 
         // GET: api/AdminControllers
         [HttpGet]
-        public async Task<ActionResult<User>> GetUsers()
+        public async Task<ActionResult<Customer>> GetUsers()
         {
             return await _context.Users.SingleOrDefaultAsync(u => u.Role == "admin");
         }
 
         // GET: api/AdminControllers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<Customer>> GetUser(int id)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -45,9 +45,9 @@ namespace OnlineShoppingPortal_API.Controllers
         // PUT: api/AdminControllers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(int id, Customer user)
         {
-            if (id != user.UserId)
+            if (id != user.CustomerId)
             {
                 return BadRequest();
             }
@@ -76,12 +76,12 @@ namespace OnlineShoppingPortal_API.Controllers
         // POST: api/AdminControllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<Customer>> PostUser(Customer user)
         {
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+            return CreatedAtAction("GetUser", new { id = user.CustomerId }, user);
         }
 
         // DELETE: api/AdminControllers/5
@@ -102,7 +102,7 @@ namespace OnlineShoppingPortal_API.Controllers
 
         private bool UserExists(int id)
         {
-            return _context.Users.Any(e => e.UserId == id);
+            return _context.Users.Any(e => e.CustomerId == id);
         }
     }
 }

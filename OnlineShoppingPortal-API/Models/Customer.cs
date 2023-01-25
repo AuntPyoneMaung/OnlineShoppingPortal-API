@@ -1,13 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
 
 namespace OnlineShoppingPortal_API.Models
 {
     public class Customer
     {
-        [Key]
-        public int CustId { set; get; }
+        public int CustomerId { set; get; }
         public string FirstName { set; get; }
-        public string LastName { set; get; }    
+        public string LastName { set; get; }
+        public string UserName { set; get; }
         public string Address1 { set; get; }
         public string Address2 { set; get; }
         public string? City { set; get; }
@@ -15,8 +15,9 @@ namespace OnlineShoppingPortal_API.Models
         public string? ZIP { set; get; }
         public string? Phone { set; get; }
         public string EmailId { set; get; }
-        public int UserId { set; get; }
-        public User User { get; set; }
         public string Password { set; get; }
+        public string Token { set; get; }
+        public string Role{ set; get; }
+
     }
 }
