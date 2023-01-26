@@ -81,7 +81,7 @@ namespace OnlineShoppingPortal_API.Controllers
             _context.Brands.Add(brand);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBrand", new { id = brand.BrandId }, brand);
+            return CreatedAtAction("GetBrand", new { id = brand.BrandId, Message ="New brand added!" }, brand);
         }
 
         // DELETE: api/Brand/5
