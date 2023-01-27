@@ -7,7 +7,7 @@
 namespace OnlineShoppingPortalAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class initialCreation : Migration
+    public partial class recreateFromScratch : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -62,11 +62,17 @@ namespace OnlineShoppingPortalAPI.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ZIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmailId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Token = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -74,7 +80,7 @@ namespace OnlineShoppingPortalAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.UserId);
+                    table.PrimaryKey("PK_User", x => x.CustomerId);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,32 +104,22 @@ namespace OnlineShoppingPortalAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customer",
+                name: "Cart",
                 columns: table => new
                 {
-                    CustId = table.Column<int>(type: "int", nullable: false)
+                    CartId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ZIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmailId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CustomerId = table.Column<int>(type: "int", nullable: true),
+                    TotalCost = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customer", x => x.CustId);
+                    table.PrimaryKey("PK_Cart", x => x.CartId);
                     table.ForeignKey(
-                        name: "FK_Customer_User_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Cart_User_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "User",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "CustomerId");
                 });
 
             migrationBuilder.CreateTable(
@@ -143,49 +139,6 @@ namespace OnlineShoppingPortalAPI.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Category",
                         principalColumn: "CategoryId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Cart",
-                columns: table => new
-                {
-                    CartId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerCustId = table.Column<int>(type: "int", nullable: true),
-                    TotalCost = table.Column<float>(type: "real", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cart", x => x.CartId);
-                    table.ForeignKey(
-                        name: "FK_Cart_Customer_CustomerCustId",
-                        column: x => x.CustomerCustId,
-                        principalTable: "Customer",
-                        principalColumn: "CustId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BrandProducts",
-                columns: table => new
-                {
-                    BrandId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BrandProducts", x => new { x.BrandId, x.ProductId });
-                    table.ForeignKey(
-                        name: "FK_BrandProducts_Brand_BrandId",
-                        column: x => x.BrandId,
-                        principalTable: "Brand",
-                        principalColumn: "BrandId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BrandProducts_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -243,6 +196,45 @@ namespace OnlineShoppingPortalAPI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "BrandProducts",
+                columns: table => new
+                {
+                    BrandId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BrandProducts", x => new { x.BrandId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_BrandProducts_Brand_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Brand",
+                        principalColumn: "BrandId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BrandProducts_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Product",
+                columns: new[] { "ProductId", "ProductDescription", "ProductModel", "ProductName", "ProductPrice" },
+                values: new object[,]
+                {
+                    { 1, "A green vegetable", "66A", "Leek", 30 },
+                    { 2, "An orange edible, safe for consumption", "67B", "Carrot", 50 },
+                    { 3, "A red, juicy and sweet fruit", "68X", "Apple", 70 },
+                    { 4, "Top grade, Japan Import, perishable, good for gifts", "69Z", "Honey Dew", 5000 },
+                    { 5, "(1kg) Savory, munchable, to-go, kids love it!", "70S", "Nugget", 300 },
+                    { 6, "Mini-ones for quick breakfast on busy days", "71M", "Sandwich", 250 },
+                    { 7, "For guilty diet, sweet, no sugar added", "72L", "Diet Coke", 30 },
+                    { 8, "Just like Coke but blue can, maybe better", "73P", "Pepsi", 30 }
+                });
+
             migrationBuilder.InsertData(
                 table: "Segment",
                 columns: new[] { "SegmentId", "SegmentName" },
@@ -255,8 +247,8 @@ namespace OnlineShoppingPortalAPI.Migrations
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "UserId", "EmailId", "FirstName", "LastName", "Password", "Role", "Token", "UserName" },
-                values: new object[] { 1, "adminuser@mail.com", "Master", "User", "wasd123", "admin", "123abc", "OgMaster001" });
+                columns: new[] { "CustomerId", "Address1", "Address2", "City", "EmailId", "FirstName", "LastName", "Password", "Phone", "Role", "State", "Token", "UserName", "ZIP" },
+                values: new object[] { 1, null, null, null, "adminuser@mail.com", "Master", "User", "0VT5s7zLvBycKO1sFrhtcBIQICNCmqPspfmuWpBESX/XSKx3", null, "admin", null, null, "AdminMasterUser01", null });
 
             migrationBuilder.InsertData(
                 table: "Category",
@@ -267,6 +259,19 @@ namespace OnlineShoppingPortalAPI.Migrations
                     { 102, "Fruits", 101 },
                     { 103, "Finger Food", 103 },
                     { 104, "Drinks", 103 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Brand",
+                columns: new[] { "BrandId", "BrandName", "CategoryId" },
+                values: new object[,]
+                {
+                    { 1, "Pasar", 101 },
+                    { 2, "TasteMaxx", 101 },
+                    { 3, "FairP", 102 },
+                    { 4, "Deli", 103 },
+                    { 5, "Nutri GO", 103 },
+                    { 6, "Quechzxc", 104 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -280,9 +285,9 @@ namespace OnlineShoppingPortalAPI.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cart_CustomerCustId",
+                name: "IX_Cart_CustomerId",
                 table: "Cart",
-                column: "CustomerCustId");
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartItem_CartId",
@@ -298,12 +303,6 @@ namespace OnlineShoppingPortalAPI.Migrations
                 name: "IX_Category_SegmentId",
                 table: "Category",
                 column: "SegmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Customer_UserId",
-                table: "Customer",
-                column: "UserId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payment_CardDetailsCardId",
@@ -344,13 +343,10 @@ namespace OnlineShoppingPortalAPI.Migrations
                 name: "Category");
 
             migrationBuilder.DropTable(
-                name: "Customer");
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "Segment");
-
-            migrationBuilder.DropTable(
-                name: "User");
         }
     }
 }

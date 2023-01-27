@@ -110,7 +110,7 @@ namespace OnlineShoppingPortal_API.Controllers
             // header payload/identity signature
             var tokenHandler = new JwtSecurityTokenHandler();
             // convert key into bytes
-            var key = Encoding.ASCII.GetBytes("this%^is!@$a$random(*99");
+            var key = Encoding.ASCII.GetBytes("randomwordfortoken");
             // set user role and fullname as its unique identity
             var identity = new ClaimsIdentity(new Claim[]
             {

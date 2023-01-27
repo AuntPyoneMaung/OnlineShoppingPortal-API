@@ -12,8 +12,8 @@ using OnlineShoppingPortal_API.Data;
 namespace OnlineShoppingPortalAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230125033930_productAndBrandSeeding")]
-    partial class productAndBrandSeeding
+    [Migration("20230127054455_recreateFromScratch")]
+    partial class recreateFromScratch
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -135,7 +135,7 @@ namespace OnlineShoppingPortalAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartId"));
 
-                    b.Property<int?>("CustomerCustId")
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<float>("TotalCost")
@@ -143,7 +143,7 @@ namespace OnlineShoppingPortalAPI.Migrations
 
                     b.HasKey("CartId");
 
-                    b.HasIndex("CustomerCustId");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Cart", (string)null);
                 });
@@ -226,11 +226,11 @@ namespace OnlineShoppingPortalAPI.Migrations
 
             modelBuilder.Entity("OnlineShoppingPortal_API.Models.Customer", b =>
                 {
-                    b.Property<int>("CustId")
+                    b.Property<int>("CustomerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
 
                     b.Property<string>("Address1")
                         .HasColumnType("nvarchar(max)");
@@ -256,21 +256,36 @@ namespace OnlineShoppingPortalAPI.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ZIP")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CustId");
+                    b.HasKey("CustomerId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.ToTable("User", (string)null);
 
-                    b.ToTable("Customer", (string)null);
+                    b.HasData(
+                        new
+                        {
+                            CustomerId = 1,
+                            EmailId = "adminuser@mail.com",
+                            FirstName = "Master",
+                            LastName = "User",
+                            Password = "0VT5s7zLvBycKO1sFrhtcBIQICNCmqPspfmuWpBESX/XSKx3",
+                            Role = "admin",
+                            UserName = "AdminMasterUser01"
+                        });
                 });
 
             modelBuilder.Entity("OnlineShoppingPortal_API.Models.Payment", b =>
@@ -429,52 +444,6 @@ namespace OnlineShoppingPortalAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("OnlineShoppingPortal_API.Models.User", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
-
-                    b.Property<string>("EmailId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("User", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            EmailId = "adminuser@mail.com",
-                            FirstName = "Master",
-                            LastName = "User",
-                            Password = "0VT5s7zLvBycKO1sFrhtcBIQICNCmqPspfmuWpBESX/XSKx3",
-                            Role = "admin",
-                            UserName = "AdminMasterUser01"
-                        });
-                });
-
             modelBuilder.Entity("OnlineShoppingPortal_API.Models.Brand", b =>
                 {
                     b.HasOne("OnlineShoppingPortal_API.Models.Category", "Category")
@@ -509,7 +478,7 @@ namespace OnlineShoppingPortalAPI.Migrations
                 {
                     b.HasOne("OnlineShoppingPortal_API.Models.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerCustId");
+                        .HasForeignKey("CustomerId");
 
                     b.Navigation("Customer");
                 });
@@ -538,17 +507,6 @@ namespace OnlineShoppingPortalAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Segment");
-                });
-
-            modelBuilder.Entity("OnlineShoppingPortal_API.Models.Customer", b =>
-                {
-                    b.HasOne("OnlineShoppingPortal_API.Models.User", "User")
-                        .WithOne("Customer")
-                        .HasForeignKey("OnlineShoppingPortal_API.Models.Customer", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OnlineShoppingPortal_API.Models.Payment", b =>
@@ -586,11 +544,6 @@ namespace OnlineShoppingPortalAPI.Migrations
             modelBuilder.Entity("OnlineShoppingPortal_API.Models.Product", b =>
                 {
                     b.Navigation("BrandProducts");
-                });
-
-            modelBuilder.Entity("OnlineShoppingPortal_API.Models.User", b =>
-                {
-                    b.Navigation("Customer");
                 });
 #pragma warning restore 612, 618
         }

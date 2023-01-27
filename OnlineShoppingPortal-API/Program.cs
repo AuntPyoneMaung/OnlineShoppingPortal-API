@@ -40,11 +40,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ISegmentRepository, SegmentRepository>();
 
 
-builder.Services.AddAuthentication( x=>
-{
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;  
-}).AddJwtBearer( x =>
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer( x =>
 {
     x.RequireHttpsMetadata = false; // no depth checking
     x.SaveToken = true;
@@ -53,7 +49,7 @@ builder.Services.AddAuthentication( x=>
     {
         ValidateIssuerSigningKey = true,
         // should match the key input
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this%^is!@$a$random(*99")),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("randomwordfortoken")),
         ValidateAudience = false,
         ValidateIssuer = false
     };
