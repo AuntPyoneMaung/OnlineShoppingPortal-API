@@ -22,5 +22,29 @@ namespace OnlineShoppingPortal_API.Repositories
             return await dataContext.Segments.ToListAsync();
         }
 
+        public async Task<Segment> GetSegment(int segmentId)
+        {
+            return await dataContext.Segments.FirstOrDefaultAsync(e => e.SegmentId == segmentId);
+        }
+
+        public async Task<Segment> AddSegment(Segment segment)
+        {
+            var result = await dataContext.Segments.AddAsync(segment);
+            await dataContext.SaveChangesAsync();
+            return result.Entity;
+        }
+
+        public async Task<Segment> DeleteSegment(int segmentId)
+        {
+            var result = await dataContext.Segments.FirstOrDefaultAsync(s => s.SegmentId == segmentId);
+            if (result != null)
+            {
+                dataContext.Segments.Remove(result);
+                await dataContext.SaveChangesAsync();
+                return result;
+            }
+            return null;
+        }
+
     }
 }

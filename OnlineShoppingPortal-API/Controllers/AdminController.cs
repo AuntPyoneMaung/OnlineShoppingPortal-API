@@ -10,6 +10,13 @@ using OnlineShoppingPortal_API.Models;
 
 namespace OnlineShoppingPortal_API.Controllers
 {
+
+    /*
+     * 
+     *  Test Controller : Delete at last stage
+     * 
+    */
+
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
