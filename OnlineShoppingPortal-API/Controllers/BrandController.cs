@@ -25,7 +25,7 @@ namespace OnlineShoppingPortal_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
         {
-            return await _context.Brands.ToListAsync();
+            return await _context.Brands.Include(b => b.BrandProducts).ThenInclude(x => x.Product).ToListAsync();
         }
 
         // GET: api/Brand/5
