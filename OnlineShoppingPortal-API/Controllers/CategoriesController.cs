@@ -18,7 +18,7 @@ namespace OnlineShoppingPortal_API.Controllers
         }
 
         // GET: api/Categories
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         [Route("getAllCategory")]
         public async Task<ActionResult> GetCategories()

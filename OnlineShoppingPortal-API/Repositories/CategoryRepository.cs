@@ -20,7 +20,7 @@ namespace OnlineShoppingPortal_API.Repositories
         // ienum for data from in-memory collection like array, list
         public async Task<IEnumerable<Category>> GetCategories()
         {
-            return await dataContext.Categories.Include(c => c.Segment).ToListAsync();
+            return await dataContext.Categories.Include(c => c.Segment).Include(c => c.Brands).ToListAsync();
         }
 
         public async Task<Category> GetCategory(int categoryId)

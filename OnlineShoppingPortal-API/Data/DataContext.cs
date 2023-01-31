@@ -22,7 +22,7 @@ namespace OnlineShoppingPortal_API.Data
                 .WithMany(c => c.BrandProducts)
                 .HasForeignKey(bc => bc.ProductId);
 
-            
+
             modelBuilder.Entity<Segment>()
                 .ToTable("Segment");
             modelBuilder.Entity<Category>()
@@ -41,6 +41,7 @@ namespace OnlineShoppingPortal_API.Data
                 .ToTable("CardDetail");
             modelBuilder.Entity<Customer>()
                 .ToTable("User");
+
 
             modelBuilder.Seed();
 
@@ -83,8 +84,8 @@ namespace OnlineShoppingPortal_API.Data
               );
 
             modelBuilder.Entity<Customer>().HasData(
-                // seeded admin user because registeration is set for USER roles only
-                // admin password : admin123
+              // seeded admin user because registeration is set for USER roles only
+              // admin password : admin123
               new Customer() { CustomerId = 1, FirstName = "Master", LastName = "User", UserName = "AdminMasterUser01", EmailId = "adminuser@mail.com", Password = "0VT5s7zLvBycKO1sFrhtcBIQICNCmqPspfmuWpBESX/XSKx3", Role = "admin" }
               );
 
@@ -107,6 +108,17 @@ namespace OnlineShoppingPortal_API.Data
               new Product() { ProductId = 7, ProductName = "Diet Coke", ProductDescription = "For guilty diet, sweet, no sugar added", ProductModel = "72L", ProductPrice = 30 },
               new Product() { ProductId = 8, ProductName = "Pepsi", ProductDescription = "Just like Coke but blue can, maybe better", ProductModel = "73P", ProductPrice = 30 }
               );
+
+            modelBuilder.Entity<BrandProduct>().HasData(
+                new BrandProduct() { BrandId = 1, ProductId = 1 },
+                new BrandProduct() { BrandId = 2, ProductId = 2 },
+                new BrandProduct() { BrandId = 3, ProductId = 3 },
+                new BrandProduct() { BrandId = 3, ProductId = 4 },
+                new BrandProduct() { BrandId = 4, ProductId = 5 },
+                new BrandProduct() { BrandId = 5, ProductId = 6 },
+                new BrandProduct() { BrandId = 6, ProductId = 7 },
+                new BrandProduct() { BrandId = 6, ProductId = 8 }
+                );
 
 
 
