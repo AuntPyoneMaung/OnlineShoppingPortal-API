@@ -22,7 +22,7 @@ namespace ProductCrudAPI.Controllers
         [HttpGet]
         public async Task<IEnumerable> Get()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products.Include(b => b.BrandProducts).ThenInclude(c => c.Brand).ToListAsync();
         }
 
         [HttpGet("{id}")]

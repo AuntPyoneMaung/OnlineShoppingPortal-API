@@ -140,7 +140,7 @@ namespace OnlineShoppingPortal_API.Controllers
 
         // scaffolded 
         // GET: api/User
-        [Authorize] // interceptor
+        //[Authorize] // interceptor
         [HttpGet]
         [Route("getAllUsers")]
         public async Task<ActionResult<IEnumerable<Customer>>> GetUsers()
@@ -165,18 +165,39 @@ namespace OnlineShoppingPortal_API.Controllers
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, Customer user)
+        public async Task<ActionResult<Customer>> PutUser(int id, Customer user)
         {
             if (id != user.CustomerId)
             {
                 return BadRequest("User ID mistmatch");
             }
 
-            dataContext.Entry(user).State = EntityState.Modified;
+            //dataContext.Entry(user).State = EntityState.Modified;
 
             try
             {
-                await dataContext.SaveChangesAsync();
+                var result = await dataContext.Users.FirstOrDefaultAsync(x => x.CustomerId == user.CustomerId);
+                if (result != null)
+                {
+//                    {
+//                        "customerId": 3,
+//  "address1": "Lane 34 State Street",
+//  "address2": "J9999 12-3222",
+//  "city": "JohnLand",
+//  "state": "Maryland",
+//  "zip": "99999",
+//  "phone": "9999999999"
+//}
+                    result.Address1 = user.Address1;
+                    result.Address2 = user.Address2;
+                    result.City = user.City; 
+                    result.State = user.State;
+                    result.ZIP = user.ZIP;
+                    result.Phone = user.Phone;
+                    await dataContext.SaveChangesAsync();
+                    return result;
+                }
+                return null;
             }
             catch (DbUpdateConcurrencyException)
             {

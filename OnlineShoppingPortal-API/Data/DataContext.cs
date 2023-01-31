@@ -106,7 +106,11 @@ namespace OnlineShoppingPortal_API.Data
               new Product() { ProductId = 5, ProductName = "Nugget", ProductDescription = "(1kg) Savory, munchable, to-go, kids love it!", ProductModel = "70S", ProductPrice = 300 },
               new Product() { ProductId = 6, ProductName = "Sandwich", ProductDescription = "Mini-ones for quick breakfast on busy days", ProductModel = "71M", ProductPrice = 250 },
               new Product() { ProductId = 7, ProductName = "Diet Coke", ProductDescription = "For guilty diet, sweet, no sugar added", ProductModel = "72L", ProductPrice = 30 },
-              new Product() { ProductId = 8, ProductName = "Pepsi", ProductDescription = "Just like Coke but blue can, maybe better", ProductModel = "73P", ProductPrice = 30 }
+              new Product() { ProductId = 8, ProductName = "Pepsi", ProductDescription = "Just like Coke but blue can, maybe better", ProductModel = "73P", ProductPrice = 30 },
+              new Product() { ProductId = 9, ProductName = "Pomelo", ProductDescription = "Sweet and sour fruit, non-seasonal", ProductModel = "74K", ProductPrice = 300 },
+              new Product() { ProductId = 10, ProductName = "Cabbage", ProductDescription = "Be it in soup or fried dishes, a versatile veg", ProductModel = "75D", ProductPrice = 350 },
+              new Product() { ProductId = 11, ProductName = "Golden Grape", ProductDescription = "One of a kind, limited edition grapes, natural gold", ProductModel = "76B", ProductPrice = 3000 },
+              new Product() { ProductId = 12, ProductName = "Bitter Gourd", ProductDescription = "A vegetable that requires an acquired taste", ProductModel = "77Q", ProductPrice = 304 }
               );
 
             modelBuilder.Entity<BrandProduct>().HasData(
@@ -117,7 +121,11 @@ namespace OnlineShoppingPortal_API.Data
                 new BrandProduct() { BrandId = 4, ProductId = 5 },
                 new BrandProduct() { BrandId = 5, ProductId = 6 },
                 new BrandProduct() { BrandId = 6, ProductId = 7 },
-                new BrandProduct() { BrandId = 6, ProductId = 8 }
+                new BrandProduct() { BrandId = 6, ProductId = 8 },
+                new BrandProduct() { BrandId = 1, ProductId = 9 },
+                new BrandProduct() { BrandId = 1, ProductId = 10 },
+                new BrandProduct() { BrandId = 1, ProductId = 11 },
+                new BrandProduct() { BrandId = 1, ProductId = 12 }
                 );
 
 
