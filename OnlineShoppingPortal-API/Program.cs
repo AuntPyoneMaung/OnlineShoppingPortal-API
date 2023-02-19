@@ -10,7 +10,8 @@ using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-
+// Program.cs, is the place where you need to register your services and dependencies 
+// after the builder.Services.AddRazorPages(); and middleware after var app = builder.Build();.
 
 // Add services to the container.
 // dependency injection
